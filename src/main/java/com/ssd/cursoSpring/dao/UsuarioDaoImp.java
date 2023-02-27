@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class UsuarioDaoImp implements UsuarioDao{
+public class UsuarioDaoImp implements UsuarioDao {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -18,7 +18,13 @@ public class UsuarioDaoImp implements UsuarioDao{
     @Override
     public List<Usuario> getUsuarios() {
         String hql = "FROM Usuario";
-         return entityManager.createQuery(hql).getResultList();
+        return entityManager.createQuery(hql).getResultList();
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        entityManager.remove(entityManager.find(Usuario.class, id)); // Elimina el usuario de la base de datos
+
     }
 
 

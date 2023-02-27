@@ -18,13 +18,32 @@ async function cargarUsuarios() {
 
     let listadoHtml = '';
     for (let usuario of usuarios) {
-        let usuarioHtml = '<tr><td>'+usuario.id+'</td><td>'+usuario.nombre+'</td><td>'
-            +usuario.apellido+'</td><td>'+usuario.email+'</td><td>'+usuario.telefono+'' +
-            '</td><td><a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a></td></tr>';
+        let botonEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
 
-            listadoHtml += usuarioHtml;
+        let usuarioHtml = '<tr><td>' + usuario.id + '</td><td>' + usuario.nombre + '</td><td>'
+            + usuario.apellido + '</td><td>' + usuario.email + '</td><td>' + usuario.telefono + '' +
+            '</td><td>' + botonEliminar + '</td></tr>';
+
+        listadoHtml += usuarioHtml;
     }
 
 
     document.querySelector("#usuarios tbody").outerHTML = listadoHtml;
+}
+
+async function eliminarUsuario(id) {
+
+    if (!confirm("¿Está seguro de eliminar el usuario?"))
+        return;
+
+
+    const request = await fetch('api/usuarios/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+
+    document.location.reload();
 }
