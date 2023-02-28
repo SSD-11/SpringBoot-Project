@@ -16,6 +16,7 @@ async function registrarUsuario() {
         alert("Las contraseñas no coinciden");
         return;
     }
+    document.location.href = "login.html";
 
     const request = await fetch('api/usuarios', {
         method: 'POST',
@@ -25,6 +26,4 @@ async function registrarUsuario() {
         },
         body: JSON.stringify(datos)
     });
-    const usuarios = await request.json();
-
 }

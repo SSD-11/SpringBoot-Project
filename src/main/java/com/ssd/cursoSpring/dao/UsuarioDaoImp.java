@@ -32,5 +32,16 @@ public class UsuarioDaoImp implements UsuarioDao {
         entityManager.merge(usuario); // Registra el usuario en la base de datos
     }
 
+    @Override
+    public boolean verificarEmailPassword(Usuario usuario) {
+        String hql = "FROM Usuario WHERE email = :email AND password = :password";
+        List<Usuario> lista = entityManager.createQuery(hql)
+                .setParameter("email", usuario.getEmail())
+                .setParameter("password", usuario.getPassword())
+                .getResultList();
+
+        return !lista.isEmpty();
+
+    }
 
 }
