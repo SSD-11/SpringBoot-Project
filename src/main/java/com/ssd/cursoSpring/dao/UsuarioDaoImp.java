@@ -27,5 +27,10 @@ public class UsuarioDaoImp implements UsuarioDao {
 
     }
 
+    @Override
+    public void registar(Usuario usuario) {
+        entityManager.merge(usuario); // Registra el usuario en la base de datos
+    }
+
 
 }
