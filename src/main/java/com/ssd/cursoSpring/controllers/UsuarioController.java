@@ -79,15 +79,4 @@ public class UsuarioController {
         usuarioDao.eliminar(id);
     }
 
-    @RequestMapping(value = "usuario123")
-    public Usuario buscar() {
-        Usuario usuario = new Usuario();
-        usuario.setNombre("Samuel");
-        usuario.setApellido("SD");
-        usuario.setEmail("ssd@gmail.com");
-        usuario.setTelefono("123456789");
-        usuario.setPassword("123456");
-        return usuario;
-    }
-
 }
