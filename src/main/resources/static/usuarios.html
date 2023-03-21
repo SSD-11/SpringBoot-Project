@@ -131,17 +131,8 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">Gestión de Usuarios</h1>
 
-
-
-
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Lista de Usuarios</h6>
-                        <div class="input-group mb-3"  style = "position: absolute; right: -770px; top: 12px"  >
-                            <input type="text" style="width: 200px" placeholder="Buscar usuario" id="input-buscar-usuario" onkeydown="if(event.keyCode===13)buscarUsuario()">
-                        </div>
-                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="usuarios" width="100%" cellspacing="0">
@@ -224,11 +215,13 @@
 <script src="js/demo/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/jquery.dataTables.js"></script>
 <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="js/usuarios.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

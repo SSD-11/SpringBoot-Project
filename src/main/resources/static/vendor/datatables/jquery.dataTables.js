@@ -4215,7 +4215,7 @@
 		var language = settings.oLanguage;
 		var previousSearch = settings.oPreviousSearch;
 		var features = settings.aanFeatures;
-		var input = '<input type="search" class="'+classes.sFilterInput+'"/>';
+		var input = '<input type="search" id= "entrada-search" class="'+classes.sFilterInput+'"/>';
 	
 		var str = language.sSearch;
 		str = str.match(/_INPUT_/) ?
@@ -4271,12 +4271,12 @@
 					searchFn.call(jqFilter[0]);
 				}, 10);
 			} )
-			.on( 'keypress.DT', function(e) {
+			.on( 'keypress.DT', function key()  {
 				/* Prevent form submission */
-				if ( e.keyCode == 13 ) {
-					return false;
-				}
-			} )
+				if ( event.keyCode === 13 )buscarUsuario();
+			})
+
+
 			.attr('aria-controls', tableId);
 	
 		// Update the input elements whenever the table is filtered
@@ -8993,8 +8993,8 @@
 	
 		return this;
 	} );
-	
-	
+
+
 	
 	/**
 	 * Get current ordering (sorting) that has been applied to the table.
@@ -9579,8 +9579,9 @@
 		 *  @type string
 		 *  @default <i>Empty string</i>
 		 */
+
 		"sSearch": "",
-	
+
 		/**
 		 * Flag to indicate if the search term should be interpreted as a
 		 * regular expression (true) or not (false) and therefore and special
@@ -11781,7 +11782,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Search:",
+				"sSearch": "Search:",
 	
 	
 			/**
