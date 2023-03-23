@@ -13,7 +13,7 @@ function actualizarEmailDelUsuario() {
 
 async function cargarUsuarios(busqueda = '') {
 
-    const buscarId = isNaN(busqueda) ?0 : parseInt(busqueda)
+    const buscarId = isNaN(busqueda) ? 0 : parseInt(busqueda)
 
     const request = await fetch('api/usuarios', {
         method: 'GET',
@@ -26,14 +26,14 @@ async function cargarUsuarios(busqueda = '') {
     let encontrado = false;
     for (let usuario of usuarios) {
         // Solo mostrar usuarios que coincidan con la búsqueda
-        if(buscarId === usuario.id || usuario.nombre.includes(busqueda) || usuario.apellido.includes(busqueda) || usuario.email.includes(busqueda)) {
+        if (buscarId === usuario.id || usuario.nombre.includes(busqueda) || usuario.apellido.includes(busqueda) || usuario.email.includes(busqueda)) {
             let botonEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
             let botonEditar = '<a href="#" onclick="editarUsuario(' + usuario.id + ')" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-edit"></i></a>';
 
             let telefonoTexto = usuario.telefono == null ? '' : usuario.telefono;
             let usuarioHtml = '<tr><td>' + usuario.id + '</td><td>' + usuario.nombre + '</td><td>'
-                + usuario.apellido + '</td><td>' + usuario.email +'</td><td>' + telefonoTexto + '' +
-                '</td><td>' + botonEliminar + " " + botonEditar +'</td></tr>';
+                + usuario.apellido + '</td><td>' + usuario.email + '</td><td>' + telefonoTexto + '' +
+                '</td><td>' + botonEliminar + " " + botonEditar + '</td></tr>';
 
             listadoHtml += usuarioHtml;
             encontrado = true;
@@ -58,38 +58,50 @@ function getHeaders() {
 
 async function eliminarUsuario(id) {
 
-    Swal.fire({
-        title: 'Do you want to save the changes?',
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        denyButtonText: 'No',
+    const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
-            actions: 'my-actions',
-            cancelButton: 'order-1 right-gap',
-            confirmButton: 'order-2',
-            denyButton: 'order-3',
-        }
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            Swal.fire('Saved!', '', 'success')
-        } else if (result.isDenied) {
-            Swal.fire('Changes are not saved', '', 'info')
-        }
-
-
-        if (!result.isConfirmed) {
-            return
-        }
-
-        const request = await fetch('api/usuarios/' + id, {
-            method: 'DELETE',
-            headers: getHeaders()
-        });
-        window.location.reload();
-
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
     })
 
+    Swal.fire({
+        title: 'Estás seguro?',
+        text: "No podrás revertirlo!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminalo!',
+        cancelButtonText: 'No, cancela!',
+        reverseButtons: true,
+        confirmButtonColor: '#50C878',
+        cancelButtonColor: '#cf142b'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            swalWithBootstrapButtons.fire(
+                'Eliminado!',
+                'Tu usuario ha sido eliminado.',
+                'success'
+            )
+            await fetch('api/usuarios/' + id, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelado',
+                'Tu usuario está seguro :)',
+                'error'
+            )
+        }
+
+    })
 }
 
 async function buscarUsuario() {
