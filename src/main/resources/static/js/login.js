@@ -17,7 +17,7 @@ async function iniciarSesion() {
         body: JSON.stringify(datos)
     });
     const respuesta = await request.text();
-    if (respuesta !== "FAIL") {
+    if (respuesta !== "ERROR") {
         localStorage.token = respuesta;
         localStorage.email = datos.email;
         document.location.href = "usuarios.html";
