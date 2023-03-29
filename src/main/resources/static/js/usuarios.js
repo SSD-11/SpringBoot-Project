@@ -26,11 +26,12 @@ async function cargarUsuarios(busqueda = '') {
     let encontrado = false;
     for (let usuario of usuarios) {
         // Solo mostrar usuarios que coincidan con la búsqueda
-        if (buscarId === usuario.id || usuario.nombre.includes(busqueda) || usuario.apellido.includes(busqueda) || usuario.email.includes(busqueda)) {
+        let telefonoTexto = usuario.telefono == null ? '' : usuario.telefono;
+        if (buscarId === usuario.id || usuario.nombre.includes(busqueda) || usuario.apellido.includes(busqueda) || usuario.email.includes(busqueda) || telefonoTexto.includes(busqueda)) {
             let botonEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
             let botonEditar = '<a href="#" onclick="editarUsuario(' + usuario.id + ')" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-edit"></i></a>';
 
-            let telefonoTexto = usuario.telefono == null ? '' : usuario.telefono;
+            
             let usuarioHtml = '<tr><td>' + usuario.id + '</td><td>' + usuario.nombre + '</td><td>'
                 + usuario.apellido + '</td><td>' + usuario.email + '</td><td>' + telefonoTexto + '' +
                 '</td><td>' + botonEliminar + " " + botonEditar + '</td></tr>';
@@ -119,15 +120,20 @@ async function editarUsuario(id) {
     const {value: formValues} = await Swal.fire({
         title: 'Editar usuario',
         html:
+            '<label for="swal-input1">Nombre: &#160</label>' +
             '<input id="swal-input1" class="swal2-input" placeholder="Nombre" value="' + usuario.nombre + '">' +
+            '<label for="swal-input2">Apellido:</label>' +
             '<input id="swal-input2" class="swal2-input" placeholder="Apellido" value="' + usuario.apellido + '">' +
+            '<label for="swal-input3">Email:&#160 &#160 &#160</label>' +
             '<input id="swal-input3" class="swal2-input" placeholder="Email" value="' + usuario.email + '">' +
+            '<label for="swal-input4">Teléfono:</label>' +
             '<input id="swal-input4" class="swal2-input" placeholder="Teléfono" value="' + (usuario.telefono || '') + '">',
         focusConfirm: false,
         showCancelButton: true,
         confirmButtonText: 'Guardar',
         cancelButtonText: 'Cancelar'
-    })
+    });
+
 
     if (formValues) {
         const nombre = document.getElementById("swal-input1").value;
